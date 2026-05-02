@@ -14,5 +14,4 @@ it("Visit the store", () => {
     .should("be.visible")
     .find(".inventory_item")
     .should("have.length.gt", 4);
-  // cy.get(".inventory_list > .inventory_item").should("have.length.gte", 3);
 });
