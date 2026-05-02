@@ -1,0 +1,5 @@
+node_modules
+package-lock.json
+package.json
+cypress.config.js
+taste-the-sauce
