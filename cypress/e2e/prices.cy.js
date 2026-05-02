@@ -12,26 +12,22 @@ it("confirms the item with the lowest price", () => {
   // get the login button and click on it
   // https://on.cypress.io/click
   cy.get('[data-test="login-button"]').click();
-  // you should transition to the inventory page
-  // https://on.cypress.io/location
-  // see assertion examples at
-  // https://glebbahmutov.com/cypress-examples/commands/location.html
   cy.location("pathname").should("equal", "/inventory.html");
   // once the inventory loads, grab the item prices
-  // https://on.cypress.io/get
-  // https://on.cypress.io/find
-  //
-  // from each price element, get its inner text
-  // and log it to the DevTools console
-  // https://on.cypress.io/then
-  // Tip: find how using https://cypress.tips/search
-  // Tip 2: Cypress._.map is really universal
-  //
-  // each price string has "$" character in front
-  // remove it using string "substr" method
-  //
-  // convert each price string into a Number
-  //
-  // find the smallest price number using Cypress._.min
-  // and confirm it is 7.99
+  cy.get(".pricebar >  .inventory_item_price")
+    .should("be.visible")
+    .and("have.length.gte", 6)
+    .then((ele) => {
+      // * ele is a jQuery [] containing DOM elements
+      return Cypress._.map(ele, "innerText");
+    })
+    .then((rawText) => {
+      // * rawText -> is a plain JS[] containing strings
+      return rawText.map((ele) => Number(ele.slice(1)));
+    })
+    .then((priceArr) => {
+      return Cypress._.min(priceArr);
+    })
+    .then(console.log)
+    .should("equal", 7.99);
 });
