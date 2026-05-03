@@ -20,16 +20,11 @@ describe("sorting", () => {
     cy.location("pathname").should("equal", "/inventory.html");
   });
 
-  function sortByPrice(order) {
+  function sortByPriceOrName(order) {
     cy.log("**sort by price low to high**");
     // sort the items from high to low price
     cy.get('[data-test="product_sort_container"]').select(order);
     cy.get(".select_container > .active_option").should("have.text", order);
-  }
-
-  function sortByName(order) {
-    cy.get('[data-test="product_sort_container"]').select(order);
-    cy.get(".select_container > span").should("have.text", order);
   }
 
   function getProductPrices() {
@@ -50,7 +45,7 @@ describe("sorting", () => {
   }
 
   it("by price lowest to highest", () => {
-    sortByPrice("Price (low to high)");
+    sortByPriceOrName("Price (low to high)");
     // sort the items from low to high
     getProductPrices().should((currArr) => {
       // * Approach 1 :-
@@ -65,7 +60,7 @@ describe("sorting", () => {
   });
 
   it("by price highest to lowest", () => {
-    sortByPrice("Price (high to low)");
+    sortByPriceOrName("Price (high to low)");
     // confirm the item prices are sorted from highest to lowest
     getProductPrices().should((currArr) => {
       const copyArr = [...currArr];
@@ -75,15 +70,15 @@ describe("sorting", () => {
   });
 
   it("by name A to Z", () => {
-    sortByName("Name (A to Z)");
+    sortByPriceOrName("Name (A to Z)");
     getProductNames().should((currName) => {
       const sortedArr = Cypress._.sortBy(currName);
       expect(sortedArr, "Check A to Z sorting...").to.be.deep.equal(currName);
     });
   });
 
-  it.only("by name Z to A", () => {
-    sortByName("Name (Z to A)");
+  it("by name Z to A", () => {
+    sortByPriceOrName("Name (Z to A)");
     getProductNames().should((currName) => {
       const sortedArr = Cypress._.sortBy(currName).reverse();
       expect(sortedArr, "Check A to Z sorting...").to.be.deep.equal(currName);
