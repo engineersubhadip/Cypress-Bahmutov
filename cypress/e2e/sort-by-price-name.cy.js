@@ -27,6 +27,11 @@ describe("sorting", () => {
     cy.get(".select_container > .active_option").should("have.text", order);
   }
 
+  function sortByName(order) {
+    cy.get('[data-test="product_sort_container"]').select(order);
+    cy.get(".select_container > span").should("have.text", order);
+  }
+
   function getProductPrices() {
     return cy
       .get(".pricebar > .inventory_item_price")
@@ -35,6 +40,15 @@ describe("sorting", () => {
       .mapInvoke("slice", "1")
       .map(Number);
   }
+
+  function getProductNames() {
+    return cy
+      .get("div.inventory_item_name")
+      .should("have.length", 6)
+      .map("innerText")
+      .print();
+  }
+
   it("by price lowest to highest", () => {
     sortByPrice("Price (low to high)");
     // sort the items from low to high
@@ -57,6 +71,22 @@ describe("sorting", () => {
       const copyArr = [...currArr];
       copyArr.sort((a, b) => b - a);
       expect(copyArr).to.deep.equal(currArr);
+    });
+  });
+
+  it("by name A to Z", () => {
+    sortByName("Name (A to Z)");
+    getProductNames().should((currName) => {
+      const sortedArr = Cypress._.sortBy(currName);
+      expect(sortedArr, "Check A to Z sorting...").to.be.deep.equal(currName);
+    });
+  });
+
+  it.only("by name Z to A", () => {
+    sortByName("Name (Z to A)");
+    getProductNames().should((currName) => {
+      const sortedArr = Cypress._.sortBy(currName).reverse();
+      expect(sortedArr, "Check A to Z sorting...").to.be.deep.equal(currName);
     });
   });
 });
