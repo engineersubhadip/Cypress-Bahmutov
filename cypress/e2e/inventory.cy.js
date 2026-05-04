@@ -11,7 +11,7 @@ describe("sorting", () => {
     cy.location("pathname").should("equal", "/inventory.html");
   });
 
-  it("has every item from the inventory : Approach 1", () => {
+  it("has every item from the inventory : Approach 1 : Less UI Calls", () => {
     cy.get("#inventory_container .inventory_item_description").should(
       "have.length",
       inventory.length,
@@ -38,7 +38,7 @@ describe("sorting", () => {
       });
   });
 
-  it("has every item from the inventory : Approach 2", () => {
+  it("has every item from the inventory : Approach 2 : More UI Calls", () => {
     cy.get("#inventory_container .inventory_item_description").should(
       "have.length",
       inventory.length,
