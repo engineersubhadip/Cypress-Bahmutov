@@ -3,6 +3,7 @@ class Login {
     this.errorMessage = 'h3[data-test="error"]';
     this.userNameField = "#user-name";
     this.passwordField = "#password";
+    this.loginButton = "#login-button";
   }
   getErrorMessage() {
     return cy.get(this.errorMessage);
@@ -12,6 +13,12 @@ class Login {
   }
   getPasswordField() {
     return cy.get(this.passwordField);
+  }
+  clickOnLoginButton() {
+    cy.get(this.loginButton).click();
+  }
+  enterUserName(userName) {
+    cy.get(this.userNameField).type(userName);
   }
 }
 export default Login;
