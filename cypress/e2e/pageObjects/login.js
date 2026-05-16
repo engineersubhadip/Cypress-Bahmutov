@@ -18,7 +18,10 @@ class Login {
     cy.get(this.loginButton).click();
   }
   enterUserName(userName) {
-    cy.get(this.userNameField).type(userName);
+    cy.get(this.userNameField, { log: false }).type(userName);
+  }
+  enterPassword(password) {
+    cy.get(this.passwordField, { log: false }).type(password);
   }
 }
 export default Login;
